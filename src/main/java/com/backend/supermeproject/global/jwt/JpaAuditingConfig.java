@@ -1,4 +1,4 @@
-package com.backend.supermeproject.global;
+package com.backend.supermeproject.global.jwt;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -18,7 +18,3 @@ public class JpaAuditingConfig {
         return new JPAQueryFactory(entityManager);
     }
 }
-
-
-// JPA 감시 기능이에요!
-// 엔티티의 생성일(createdDate) 및 수정일(modifiedDate)을 자동으로 관리하고 갱신하는 기능입다
