@@ -21,6 +21,7 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class MemberInfoService implements UserDetailsService {
+
     private final MemberRepository memberRepository;
 
     @Override
