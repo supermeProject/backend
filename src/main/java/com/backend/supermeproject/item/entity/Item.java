@@ -24,6 +24,10 @@ public class Item {
     private String category;
     private String description;
 
+    @OneToMany(mappedBy = "item")
+    private List<Variant> variants;
 
+    @OneToMany(mappedBy = "item")
+    private List<ItemImage> image;
 
 }

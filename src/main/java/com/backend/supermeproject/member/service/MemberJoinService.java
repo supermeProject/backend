@@ -35,17 +35,15 @@ public class MemberJoinService {
                 .postcode(request.postcode())
                 .gender(Gender.valueOf(request.gender()))
                 .build();
-        memberRepository.save(member);
 
         boolean hasNonEmptyFile = files.stream().anyMatch(file -> !file.isEmpty());
 
         if (hasNonEmptyFile) {
             ImageUploadUtil.uploadImages(files, member.getMemberId(), itemImageRepository);
-            return;
+        } else {
+            String filePath = System.getProperty("user.dir") + "/src/main/resources/static/files/avatar.png";
+            member.profileImage(filePath);
         }
-
-        String filePath = System.getProperty("user.dir") + "/src/main/resources/static/files/avatar.png";
-        member.profileImage(filePath);
 
         memberRepository.save(member);
 

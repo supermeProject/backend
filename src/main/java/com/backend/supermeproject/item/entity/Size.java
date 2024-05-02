@@ -12,7 +12,9 @@ public class Size {
     private String size;
     private Integer stock;
 
-
+    @ManyToOne
+    @JoinColumn(name = "variant_id")
+    private Variant variant;
 
 
 }

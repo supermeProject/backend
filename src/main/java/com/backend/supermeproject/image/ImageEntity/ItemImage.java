@@ -22,8 +22,9 @@ public class ItemImage {
     private String filePath;
 
     private Long memberId;
-    private Long itemId;
 
-
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    private Item item;
 
 }
