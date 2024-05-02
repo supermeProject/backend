@@ -1,9 +1,9 @@
 package com.backend.supermeproject.global.role;
 
 public enum Gender {
-    Male("남성"),
-    Female("여성");
-
+    MALE("남성"),
+    FEMALE("여성"),
+    OTHER("다른");
     private final String value;
 
     Gender(String value) {

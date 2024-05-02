@@ -3,13 +3,16 @@ package com.backend.supermeproject.member.entity;
 import com.backend.supermeproject.global.BaseEntity;
 import com.backend.supermeproject.global.role.Gender;
 import com.backend.supermeproject.global.role.MemberType;
+
 import jakarta.persistence.*;
 import lombok.*;
+
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@Setter
 @Table(name = "member")
 public class Member extends BaseEntity {
     @Id
@@ -24,16 +27,22 @@ public class Member extends BaseEntity {
     private String password;
 
     @Column(name = "nickname")
-    private String nickname;
+    private String name;
 
-    @Column(name = "myimage")
-    private String myimage;
+    @Column(name = "profileImage")
+    private String profileImage;
 
-    @Column(name = "address1")
-    private String address1;
+    @Column(name = "country")
+    private String country;
 
-    @Column(name = "address2")
-    private String address2;
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "postcode")
+    private String postcode;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -44,14 +53,21 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberType type = MemberType.USER;
 
-
     @Builder
-    public Member(String email, String password, String nickname, String address1, String phoneNumber, Gender gender) {
+    public Member(String profileImage, String name, String email, String password, String country, String address, String city, String phoneNumber, Gender gender, String postcode) {
+        this.profileImage = profileImage;
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.nickname = nickname;
-        this.address1 = address1;
+        this.country = country;
+        this.address = address;
+        this.city = city;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
+        this.postcode = postcode;
+    }
+
+    public void profileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

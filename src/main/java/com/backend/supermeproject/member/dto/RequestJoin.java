@@ -3,13 +3,16 @@ package com.backend.supermeproject.member.dto;
 import com.backend.supermeproject.global.role.Gender;
 
 public record RequestJoin(
+        String profileImage,
+        String name,
         String email,
         String password,
-        String nickname,
-        String address,
+        String passwordCheck,
         String phoneNumber,
-        Gender gender
-
-
+        String country,
+        String address,
+        String city,
+        String postcode,
+        String gender
 ) {
 }
