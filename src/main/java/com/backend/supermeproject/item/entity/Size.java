@@ -18,7 +18,7 @@ public class Size {
     private String size;
     private Integer stock;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "variant_id")
     private Variant variant;
 

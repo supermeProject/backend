@@ -27,7 +27,8 @@ public class ProductItemController {
                                                    @RequestPart("request") ProductDTO request
 
     ) {
-        itemService.uploadItem(file, member, request);
+        Long memberId = member.getMember().getMemberId();
+        itemService.uploadItem(file, memberId, request);
 
         return ResponseEntity.ok().body("등록");
     }

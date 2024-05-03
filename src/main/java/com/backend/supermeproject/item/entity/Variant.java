@@ -18,12 +18,12 @@ public class Variant {
 
     private String color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
 
-    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Size> sizes;
 
     @Builder

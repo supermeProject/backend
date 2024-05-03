@@ -24,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MemberController {
+
     private final MemberLoginService loginService;
     private final MemberInfoService infoService;
     private final MemberJoinService joinService;
