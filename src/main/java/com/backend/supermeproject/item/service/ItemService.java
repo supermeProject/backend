@@ -33,9 +33,11 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     //업로드
-    public String uploadItem(List<MultipartFile> files, MemberInfo member, ProductDTO request) {
-        Member user = memberRepository.findById(member.getMember().getMemberId())
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_MEMBER));
+    @Transactional
+    public String uploadItem(List<MultipartFile> files, Long user, ProductDTO request) {
+
+
+        List<ItemImage> images = ImageUploadUtil.uploadImages(files, user, itemImageRepository);
 
         // 아이템 생성
         Item item = Item.builder()
@@ -43,13 +45,15 @@ public class ItemService {
                 .price(request.price())
                 .category(request.category())
                 .description(request.description())
-                .memberId(user.getMemberId())
+                .memberId(user)
+                .image(images)
                 .build();
 
-        List<ItemImage> images = ImageUploadUtil.uploadImages(files, member.getMember().getMemberId(), itemImageRepository);
+
         for (ItemImage image : images) {
-            image.setItem(item); // Item 엔티티와의 관계 설정
+            image.setItem(item);
         }
+
 
         // 이미지 저장
         List<Variant> variants = request.variants().stream()
@@ -98,7 +102,7 @@ public class ItemService {
 
     public ItemResponse getIdItem(Long id) {
         Item item = itemRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_MEMBER));
-        System.out.println("id 값은 =" + id);
+
         return econvertToItemResponse(item);
 
     }

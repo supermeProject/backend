@@ -23,7 +23,7 @@ public class Item {
     private String description;
     private Long memberId;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Variant> variants;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
