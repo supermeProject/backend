@@ -10,6 +10,7 @@ import com.backend.supermeproject.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class MemberJoinService {
     private final PasswordEncoder passwordEncoder;
     private final ItemImageRepository itemImageRepository;
 
+    @Transactional
     public void save(RequestJoin request, List<MultipartFile> files) {
         String password = passwordEncoder.encode(request.password());
 
@@ -36,17 +38,17 @@ public class MemberJoinService {
                 .gender(Gender.valueOf(request.gender()))
                 .build();
 
+
+        Member savedMember = memberRepository.save(member);
+
         boolean hasNonEmptyFile = files.stream().anyMatch(file -> !file.isEmpty());
 
         if (hasNonEmptyFile) {
-            ImageUploadUtil.uploadImages(files, member.getMemberId(), itemImageRepository);
+            ImageUploadUtil.uploadImages(files, savedMember.getMemberId(), itemImageRepository);
         } else {
             String filePath = System.getProperty("user.dir") + "/src/main/resources/static/files/avatar.png";
-            member.profileImage(filePath);
+            savedMember.profileImage(filePath);
         }
-
-        memberRepository.save(member);
-
     }
 
 

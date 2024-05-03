@@ -2,7 +2,7 @@ package com.backend.supermeproject.item.dto;
 
 import java.util.List;
 
-public record ProductDTO(
+public record ItemResponse(
         String productName,
         Double price,
         String category,
