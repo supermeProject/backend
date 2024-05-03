@@ -2,8 +2,7 @@ package com.backend.supermeproject.item.dto;
 
 import java.util.List;
 
-public record VariantDTO(
+public record VariantResponse(
         String color,
-        List<SizeDTO> sizes
+        List<SizeResponse> sizes
 ) {}
-

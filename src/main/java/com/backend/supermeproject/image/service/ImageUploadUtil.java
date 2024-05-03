@@ -41,8 +41,8 @@ public class ImageUploadUtil {
                     .filePath(filePath)
                     .memberId(memberId)
                     .build();
-
-            return itemImageRepository.save(image);
+            itemImageRepository.save(image);
+            return image;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

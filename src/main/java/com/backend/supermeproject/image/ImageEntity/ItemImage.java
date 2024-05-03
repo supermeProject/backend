@@ -2,16 +2,14 @@ package com.backend.supermeproject.image.ImageEntity;
 
 import com.backend.supermeproject.item.entity.Item;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
+@Getter
 public class ItemImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,19 +1,14 @@
 package com.backend.supermeproject.item.entity;
 
-import com.backend.supermeproject.item.entity.Size;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
-@Builder
+@Setter
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Variant {
 
     @Id
@@ -28,8 +23,13 @@ public class Variant {
     private Item item;
 
 
-    @OneToMany(mappedBy = "variant")
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private List<Size> sizes;
 
-
+    @Builder
+    public Variant(String color, Item item, List<Size> sizes) {
+        this.color = color;
+        this.item = item;
+        this.sizes = sizes;
+    }
 }
