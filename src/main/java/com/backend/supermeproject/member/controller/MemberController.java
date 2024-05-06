@@ -43,4 +43,5 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 완료");
     }
 
+
 }
