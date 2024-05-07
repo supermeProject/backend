@@ -1,6 +1,8 @@
 package com.backend.supermeproject.cart.repository;
 
+import com.backend.supermeproject.cart.entity.Cart;
 import com.backend.supermeproject.cart.entity.CartItem;
+import com.backend.supermeproject.cart.entity.QCart;
 import com.backend.supermeproject.cart.entity.QCartItem;
 import com.backend.supermeproject.image.ImageEntity.QItemImage;
 import com.backend.supermeproject.item.entity.Item;
@@ -47,8 +49,6 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom{
     }
 
 
-
-
     // 카트 아이템 삭제
     @Transactional
     public void deleteCartItemById(Long itemId) {
@@ -59,13 +59,10 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom{
                 .execute();
     }
 
-    @Override
-    public void clearCartByMemberId(Long memberId) {
-
-    }
 
     // 카트 내 모든 아이템 삭제
-    public void clearCartBymemberId(Long memberId) {
+    @Override
+    public void clearCartByMemberId(Long memberId) {
         QCartItem qCartItem = QCartItem.cartItem;
         queryFactory
                 .delete(qCartItem)
@@ -73,8 +70,7 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom{
                 .execute();
     }
 
-
-    //이미지 처음꺼 찾기
+    // 이미지와 함께 아이템을 가져오는 메서드
     public List<Item> findItemsWithImages() {
         QItem item = QItem.item;
         QItemImage itemImage = QItemImage.itemImage;
@@ -85,6 +81,8 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom{
                 .fetch();
     }
 
+
+
     @Override
     public Optional<CartItem> findCartItemByMemberId(Long memberId) {
         QCartItem cartItem = QCartItem.cartItem;
@@ -93,12 +91,17 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom{
                 .where(cartItem.cart.member.memberId.eq(memberId))
                 .fetchOne());
     }
+    @Override
+    public List<CartItem> findUnpaidCartItemsByMemberId(Long memberId) {
+        QCartItem qCartItem = QCartItem.cartItem;
+        QCart qCart = QCart.cart;
 
-
-    public Optional<CartItem> findByCartMemberId(Long memberId) {
-        QCartItem cartItem = QCartItem.cartItem;
-        BooleanExpression predicate = cartItem.cart.member.memberId.eq(memberId);
-        return Optional.ofNullable(queryFactory.selectFrom(cartItem).where(predicate).fetchOne());
+        return queryFactory
+                .selectFrom(qCartItem)
+                .join(qCartItem.cart, qCart)
+                .where(qCart.member.memberId.eq(memberId)
+                        .and(qCart.isPaid.eq(false)))
+                .fetch();
     }
 
 }

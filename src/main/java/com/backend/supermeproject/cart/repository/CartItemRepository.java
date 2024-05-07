@@ -3,6 +3,7 @@ package com.backend.supermeproject.cart.repository;
 import com.backend.supermeproject.cart.entity.Cart;
 import com.backend.supermeproject.cart.entity.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface CartItemRepository extends JpaRepository<CartItem, Long>, CartItemRepositoryCustom  {
+public interface CartItemRepository extends JpaRepository<CartItem, Long>, QuerydslPredicateExecutor<CartItem>, CartItemRepositoryCustom   {
 
     /**
      * 특정 사용자(Member)의 모든 카트 아이템을 조회합니다.
@@ -30,5 +31,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long>, CartI
      */
     Optional<CartItem> findByIdAndCart_Member_MemberId(Long itemId, Long memberId);
 
-    Optional<CartItem> findByCartMemberId(Long memberId);
+    List<CartItem> findByCart_Member_MemberIdAndCart_IsPaidFalse(Long memberId);
+
+
 }
