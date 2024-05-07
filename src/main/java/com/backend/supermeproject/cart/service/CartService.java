@@ -8,6 +8,7 @@ import com.backend.supermeproject.cart.repository.CartItemRepository;
 import com.backend.supermeproject.cart.repository.CartRepository;
 import com.backend.supermeproject.global.exception.BusinessException;
 import com.backend.supermeproject.global.exception.ErrorCode;
+import com.backend.supermeproject.image.ImageEntity.ItemImage;
 import com.backend.supermeproject.item.entity.Item;
 import com.backend.supermeproject.item.repository.ItemRepository;
 import com.backend.supermeproject.member.entity.Member;
@@ -51,47 +52,63 @@ public class CartService {
         Item item = itemRepository.findById(cartItemDto.getItemId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ITEM));
 
-        // 사용자의 카트 조회, 없으면 새로 생성
-        Cart cart = cartRepository.findByMember_MemberId(memberId)
-                .orElseGet(() -> {
-                    log.info("사용자 ID {}의 카트가 없어 새로 생성합니다.", memberId);
-                    return cartRepository.save(new Cart(memberRepository.findById(memberId)
-                            .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_MEMBER))));
-                });
-        // 카트 아이템 생성 및 저장
+
+        // 기존 활성 카트를 검색하고, 결제 완료된 경우 새 카트 생성
+        Cart cart = cartRepository.findLatestActiveCartByMemberId(memberId)
+                .orElseGet(() -> createNewCart(memberRepository.findById(memberId)
+                        .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_MEMBER))));
+
+        // CartItem 객체 생성 변경
         CartItem newCartItem = CartItem.builder()
                 .cart(cart)
                 .item(item)
                 .quantity(cartItemDto.getQuantity())
                 .build();
-        log.info("사용자 ID {}의 카트에 아이템을 추가합니다.", memberId);
         cartItemRepository.save(newCartItem);
-
+        log.info("멤버 ID {}의 카트에 아이템 추가 완료", memberId);
     }
+
+    private Cart createNewCart(Member member) {
+        Cart newCart = Cart.builder()
+                .member(member)
+                .isPaid(false)
+                .items(new ArrayList<>())
+                .build();
+        return cartRepository.save(newCart);
+    }
+
+
 
     // 사용자 ID로 장바구니 조회
     public List<CartItemDto> getCartItems(Long memberId) {
-        log.info("사용자 ID {}에서 모든 아이템을 조회합니다.", memberId);
-        List<CartItem> cartItems = cartItemRepository.findByCart_Member_MemberId(memberId);
-        List<CartItemDto> items = cartItems.stream()
-                .map(cartItem -> {
-                    String imageUrl = cartItem.getItem().getImage().isEmpty() ? null : cartItem.getItem().getImage().get(0).getFilePath();
-                    return CartItemDto.builder()
-                            .itemId(cartItem.getItem().getItemId())
-                            .productName(cartItem.getItem().getProductName())
-                            .quantity(cartItem.getQuantity())
-                            .price(cartItem.getItem().getPrice())
-                            .imageURL(imageUrl)
-                            .build();
-                })
-                .collect(Collectors.toList());
+        log.info("멤버 ID {}에서 미결제 카트 아이템 조회", memberId);
+        Cart cart = cartRepository.findLatestActiveCartByMemberId(memberId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.CART_NOT_FOUND));
 
-        log.info("사용자 ID {}에서 조회된 아이템 수: {}", memberId, items.size());
-        if (items.isEmpty()) {
-            throw new BusinessException(ErrorCode.CART_NO_PRODUCTS);
-        }
-        return items;
+        return cart.getItems().stream()
+                .map(this::convertToCartItemDto)
+                .collect(Collectors.toList());
     }
+
+    private CartItemDto convertToCartItemDto(CartItem cartItem) {
+        String imageUrl = getFirstImageUrl(cartItem.getItem().getImage());
+        return CartItemDto.builder()
+                .itemId(cartItem.getItem().getItemId())
+                .productName(cartItem.getItem().getProductName())
+                .quantity(cartItem.getQuantity())
+                .price(cartItem.getItem().getPrice())
+                .imageURL(imageUrl)
+                .build();
+    }
+
+    private String getFirstImageUrl(List<ItemImage> images) {
+        // 이미지 리스트 중 첫 번째 이미지의 URL을 반환
+        if (images == null || images.isEmpty()) {
+            return "이미지가 없습니다";
+        }
+        return images.get(0).getFilePath();
+    }
+
 
 
     // 카트 아이템 수량 업데이트
@@ -130,13 +147,9 @@ public class CartService {
         log.info("사용자 ID {}의 모든 아이템 삭제 완료", memberId);
     }
 
-//    // 결제 여부 확인 및 미결제 카트 조회
-//    public Cart findUnpaidCartByMemberId(Long memberId) {
-//        QCart qCart = QCart.cart;
-//        BooleanExpression isMember = qCart.member.memberId.eq(memberId);
-//        BooleanExpression isUnpaid = qCart.isPaid.isFalse();
-//
-//        return cartRepository.findOne(isMember.and(isUnpaid)).orElse(null);
-//    }
+
+    public List<CartItem> getUnpaidCartItems(Long memberId) {
+        return cartItemRepository.findUnpaidCartItemsByMemberId(memberId);
+    }
 
 }

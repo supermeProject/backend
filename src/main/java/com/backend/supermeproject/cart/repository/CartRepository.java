@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CartRepository extends JpaRepository<Cart, Long>, QuerydslPredicateExecutor<Cart> {
-    // 특정 회원의 ID에 따라 카트를 찾는 메소드
+public interface CartRepository extends JpaRepository<Cart, Long>, QuerydslPredicateExecutor<Cart>, CartRepositoryCustom {
+   // 특정 회원의 ID에 따라 카트를 찾는 메소드
     Optional<Cart> findByMember_MemberId(Long memberId);
 }
