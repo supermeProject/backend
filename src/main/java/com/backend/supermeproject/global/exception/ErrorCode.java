@@ -56,6 +56,10 @@ public enum ErrorCode {
     NOT_FOUND_CART(HttpStatus.NOT_FOUND, "존재하지 않는 장바구니 입니다."),
     CART_NO_PRODUCTS(HttpStatus.NOT_FOUND, "장바구니에 상품이 존재하지 않습니다."),
     CART_IN_ITEM_DUPLICATED(HttpStatus.NOT_FOUND, "장바구니에 이미 담겨있는 상품입니다."),
+    INSUFFICIENT_STOCK(HttpStatus.BAD_REQUEST, "요청된 수량이 재고 수준을 초과합니다."),
+    INVALID_CART_ITEM_QUANTITY(HttpStatus.BAD_REQUEST, "장바구니 아이템의 수량이 유효하지 않습니다."),
+    CART_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "장바구니에서 해당 아이템을 찾을 수 없습니다."),
+    EMPTY_CART_CANNOT_CHECKOUT(HttpStatus.BAD_REQUEST, "장바구니가 비어 있어 주문을 진행할 수 없습니다."),
 
     // 카테고리
     NOT_FOUND_CATEGORY(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다"),
