@@ -59,6 +59,8 @@ dependencies {
 			"jakarta.annotation:jakarta.annotation-api",
 			"com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
 	)
+
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'//Junit
 }
 
 tasks.named('test') {
