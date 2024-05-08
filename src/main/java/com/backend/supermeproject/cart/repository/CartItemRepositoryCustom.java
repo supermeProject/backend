@@ -15,4 +15,7 @@ public interface CartItemRepositoryCustom {
     List<Item> findItemsWithImages();
     Optional<CartItem> findCartItemByMemberId(Long memberId);
     List<CartItem> findUnpaidCartItemsByMemberId(Long memberId);
+    Optional<CartItem> findByMemberIdAndItemIdAndVariantIdAndSizeId(Long memberId, Long itemId, Long variantId, Long sizeId);
+
+
 }

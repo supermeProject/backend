@@ -61,29 +61,36 @@ public class CartController {
     }
 
     // 장바구니 항목 수량 변경
-    @Operation(summary = "장바구니 항목 수량 변경하는 api 엔드포인트")
-    @PutMapping("/update/{itemId}")
-    public ResponseEntity<?> updateCartItemQuantity(@PathVariable Long itemId, @RequestParam(required = false) Integer quantity) {
+    @Operation(summary = "장바구니 항목의 특정 사이즈와 컬러의 수량을 변경하는 API 엔드포인트")
+    @PutMapping("/update/{itemId}/variants/{variantId}/sizes/{sizeId}")
+    public ResponseEntity<?> updateCartItemQuantity(
+            @PathVariable Long itemId,
+            @PathVariable Long variantId,
+            @PathVariable Long sizeId,
+            @RequestParam Integer quantity) {
         if (quantity == null || quantity <= 0) {
             return ResponseEntity.badRequest().body("유효한 수량을 입력해주세요.");
         }
         try {
             Long memberId = getMemberIdFromAuth();
-            cartService.updateCartItemQuantity(memberId, itemId, quantity);
-            return ResponseEntity.ok("수량이 업데이트 되었습니다.");
+            cartService.updateCartItemQuantity(memberId, itemId, variantId, sizeId, quantity);
+            return ResponseEntity.ok("아이템의 수량이 업데이트 되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     // 장바구니 항목 삭제
-    @Operation(summary = "장바구니 항목 삭제하는 api 엔드포인트")
-    @DeleteMapping("/remove/{itemId}")
-    public ResponseEntity<?> removeCartItem(@PathVariable Long itemId) {
+    @Operation(summary = "특정 아이템의 특정 변형과 사이즈를 장바구니에서 삭제하는 API 엔드포인트")
+    @DeleteMapping("/remove/{itemId}/variants/{variantId}/sizes/{sizeId}")
+    public ResponseEntity<?> removeCartItem(
+            @PathVariable Long itemId,
+            @PathVariable Long variantId,
+            @PathVariable Long sizeId) {
         try {
             Long memberId = getMemberIdFromAuth();
-            cartService.removeCartItem(memberId, itemId);
-            return ResponseEntity.ok("상품이 장바구니에서 삭제되었습니다.");
+            cartService.removeCartItem(memberId, itemId, variantId, sizeId);
+            return ResponseEntity.ok("선택한 아이템 변형이 장바구니에서 삭제되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("상품 삭제 실패: " + e.getMessage());
         }
