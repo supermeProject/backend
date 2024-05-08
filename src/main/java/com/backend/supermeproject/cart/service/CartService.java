@@ -92,9 +92,14 @@ public class CartService {
 
     private CartItemDto convertToCartItemDto(CartItem cartItem) {
         String imageUrl = getFirstImageUrl(cartItem.getItem().getImage());
+        String color = cartItem.getVariant() != null ? cartItem.getVariant().getColor() : null;
+        String size = cartItem.getSize() != null ? cartItem.getSize().getSize() : null;
+
         return CartItemDto.builder()
                 .itemId(cartItem.getItem().getItemId())
                 .productName(cartItem.getItem().getProductName())
+                .color(color)
+                .size(size)
                 .quantity(cartItem.getQuantity())
                 .price(cartItem.getItem().getPrice())
                 .imageURL(imageUrl)
@@ -112,10 +117,10 @@ public class CartService {
 
 
     // 카트 아이템 수량 업데이트
-    public void updateCartItemQuantity(Long memberId, Long itemId, int quantity) {
-        log.info("사용자 ID {}의 아이템 ID {} 수량을 업데이트합니다.", memberId, itemId);
-        CartItem cartItem = cartItemRepository.findByIdAndCart_Member_MemberId(itemId, memberId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.CART_ITEM_NOT_FOUND));
+    public void updateCartItemQuantity(Long memberId, Long itemId, Long variantId, Long sizeId, int quantity) {
+        log.info("사용자 ID {}, 아이템 ID {}, 변형 ID {}, 사이즈 ID {}의 수량을 {}로 업데이트합니다.", memberId, itemId, variantId, sizeId, quantity);
+        Optional<CartItem> cartItemOptional = cartItemRepository.findByMemberIdAndItemIdAndVariantIdAndSizeId(memberId, itemId, variantId, sizeId);
+        CartItem cartItem = cartItemOptional.orElseThrow(() -> new BusinessException(ErrorCode.CART_ITEM_NOT_FOUND));
 
         if (quantity <= 0) {
             throw new BusinessException(ErrorCode.INVALID_CART_ITEM_QUANTITY);
@@ -128,13 +133,13 @@ public class CartService {
 
     // 카트 아이템 삭제
     @Transactional
-    public void removeCartItem(Long memberId, Long itemId) {
-        log.info("사용자 ID {}에서 아이템 ID {}를 삭제합니다.", memberId, itemId);
-        cartItemRepository.findByIdAndCart_Member_MemberId(itemId, memberId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.CART_ITEM_NOT_FOUND));
+    public void removeCartItem(Long memberId, Long itemId, Long variantId, Long sizeId) {
+        log.info("사용자 ID {}에서 아이템 ID {}, 변형 ID {}, 사이즈 ID {}를 삭제합니다.", memberId, itemId, variantId, sizeId);
+        Optional<CartItem> cartItemOptional = cartItemRepository.findByMemberIdAndItemIdAndVariantIdAndSizeId(memberId, itemId, variantId, sizeId);
+        CartItem cartItem = cartItemOptional.orElseThrow(() -> new BusinessException(ErrorCode.CART_ITEM_NOT_FOUND));
 
         cartItemRepository.deleteCartItemById(itemId);
-        log.info("아이템 ID {} 삭제 완료", itemId);
+        log.info("사용자 ID {}의 아이템 ID {}, 변형 ID {}, 사이즈 ID {} 삭제 완료", memberId, itemId, variantId, sizeId);
     }
 
     // 카트 내 모든 아이템 삭제

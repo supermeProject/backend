@@ -104,4 +104,18 @@ public class CartItemRepositoryImpl implements CartItemRepositoryCustom{
                 .fetch();
     }
 
+    @Override
+    public Optional<CartItem> findByMemberIdAndItemIdAndVariantIdAndSizeId(Long memberId, Long itemId, Long variantId, Long sizeId) {
+        QCartItem cartItem = QCartItem.cartItem;
+        return Optional.ofNullable(
+                queryFactory.selectFrom(cartItem)
+                        .where(cartItem.cart.member.memberId.eq(memberId)
+                                .and(cartItem.item.itemId.eq(itemId))
+                                .and(cartItem.variant.id.eq(variantId))
+                                .and(cartItem.size.id.eq(sizeId)))
+                        .fetchOne());
+    }
+
+
+
 }
