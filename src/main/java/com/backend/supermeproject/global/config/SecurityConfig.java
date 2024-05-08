@@ -51,8 +51,9 @@ public class SecurityConfig {
                                     "/js/**",
                                     "/css/**",
                                     "/image/**",
-                                    "/fonts/**",
-                                    "/favicon.ico").permitAll()
+                                    "/fonts/**"
+//                                    "/favicon.ico"
+                            ).permitAll()
                             .anyRequest().authenticated();
                 });
         http.headers().frameOptions().sameOrigin();
