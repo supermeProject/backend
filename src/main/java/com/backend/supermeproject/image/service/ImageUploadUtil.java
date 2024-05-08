@@ -27,8 +27,8 @@ public class ImageUploadUtil {
     private static ItemImage saveImage(MultipartFile file, Long memberId, ItemImageRepository itemImageRepository) {
 
 
-//        String projectPath = System.getProperty("user.dir")+"/image/item";
-        String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
+        String projectPath = "/home/ubuntu/backend/src/main/resources/static/files";
+//        String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         String filePath = projectPath + File.separator + fileName;
 

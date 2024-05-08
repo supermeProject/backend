@@ -46,8 +46,8 @@ public class MemberJoinService {
         if (hasNonEmptyFile) {
             ImageUploadUtil.uploadImages(files, savedMember.getMemberId(), itemImageRepository);
         } else {
-//            String filePath= System.getProperty("user.dir")+"/image/avatar.png";
-            String filePath = System.getProperty("user.dir") + "/src/main/resources/static/files/avatar.png";
+            String filePath= "/home/ubuntu/backend/src/main/resources/static/files";
+//            String filePath = System.getProperty("user.dir") + "/src/main/resources/static/files/avatar.png";
             savedMember.profileImage(filePath);
         }
     }
