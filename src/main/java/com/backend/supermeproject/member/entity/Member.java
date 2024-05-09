@@ -53,6 +53,10 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberType type = MemberType.USER;
 
+    //포인트
+    @Column(name = "deposit")
+    private Long deposit;
+
     @Builder
     public Member(String profileImage, String name, String email, String password, String country, String address, String city, String phoneNumber, Gender gender, String postcode) {
         this.profileImage = profileImage;
