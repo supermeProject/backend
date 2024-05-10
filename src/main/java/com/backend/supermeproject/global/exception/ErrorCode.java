@@ -79,6 +79,12 @@ public enum ErrorCode {
     NO_BUY_ORDER(HttpStatus.BAD_REQUEST, "구매한 상품이 아닙니다."),
     NOT_ENOUGH_STOCK(HttpStatus.BAD_REQUEST, "주문하려고 하는 상품 재고가 부족합니다."),
     NOT_FOUND_ORDER_ITEM(HttpStatus.NOT_FOUND, "존재하는 주문 상품이 없습니다."),
+    // 주문 관련 에러 코드
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "주문을 찾을 수 없습니다."),
+    CART_EMPTY(HttpStatus.BAD_REQUEST, "장바구니가 비어 있습니다."),
+    OUT_OF_STOCK(HttpStatus.BAD_REQUEST, "상품의 재고가 부족합니다."),
+    PRICE_MISMATCH(HttpStatus.BAD_REQUEST, "주문 총액이 일치하지 않습니다."),
+
 
     // 결제
     NOT_FOUND_PAY(HttpStatus.NOT_FOUND, "존재하는 결제가 없습니다."),
@@ -86,6 +92,9 @@ public enum ErrorCode {
     CAN_NOT_CANCEL_PAY(HttpStatus.BAD_REQUEST, "결제를 취소할 수 없습니다."),
     NOT_EQUAL_MERCHANT_ID(HttpStatus.BAD_REQUEST, "주문번호 ID가 일치하지 않습니다."),
     ALREADY_DELIVERY_STATUS(HttpStatus.BAD_REQUEST, "이미 배송 중입니다."),
+    PAYMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "결제 정보를 찾을 수 없습니다."),
+    INSUFFICIENT_FUNDS(HttpStatus.BAD_REQUEST, "잔액이 부족합니다."),
+
 
     // 회원
     NOT_FOUND_EMPLOYEE(HttpStatus.NOT_FOUND, "직원이 존재하지 않습니다."),

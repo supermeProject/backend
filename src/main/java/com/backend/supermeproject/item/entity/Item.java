@@ -5,6 +5,7 @@ import com.backend.supermeproject.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,7 @@ public class Item {
     private Long itemId;
 
     private String productName;
-    private Double price;
+    private BigDecimal price;
     private String category;
     private String description;
     private Long memberId;
@@ -30,7 +31,7 @@ public class Item {
     private List<ItemImage> image;
 
     @Builder
-    public Item(String productName, Double price, String category, String description, List<Variant> variants, List<ItemImage> image, Long memberId) {
+    public Item(String productName, BigDecimal price, String category, String description, List<Variant> variants, List<ItemImage> image, Long memberId) {
         this.productName = productName;
         this.price = price;
         this.category = category;
