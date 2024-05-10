@@ -91,18 +91,15 @@ public class CartService {
     }
 
     private CartItemDto convertToCartItemDto(CartItem cartItem) {
-        String imageUrl = getFirstImageUrl(cartItem.getItem().getImage());
-        String color = cartItem.getVariant() != null ? cartItem.getVariant().getColor() : null;
-        String size = cartItem.getSize() != null ? cartItem.getSize().getSize() : null;
-
+        Item item = cartItem.getItem();
         return CartItemDto.builder()
-                .itemId(cartItem.getItem().getItemId())
-                .productName(cartItem.getItem().getProductName())
-                .color(color)
-                .size(size)
+                .itemId(item.getItemId())
+                .productName(item.getProductName())
                 .quantity(cartItem.getQuantity())
-                .price(cartItem.getItem().getPrice())
-                .imageURL(imageUrl)
+                .price(item.getPrice())
+                .imageURL(getFirstImageUrl(item.getImage()))
+                .variantId(cartItem.getVariant() != null ? cartItem.getVariant().getId() : null)
+                .sizeId(cartItem.getSize() != null ? cartItem.getSize().getId() : null)
                 .build();
     }
 

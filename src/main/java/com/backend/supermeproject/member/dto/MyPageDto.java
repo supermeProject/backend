@@ -2,6 +2,8 @@ package com.backend.supermeproject.member.dto;
 
 import com.backend.supermeproject.global.role.Gender;
 
+import java.math.BigDecimal;
+
 public record MyPageDto(
         String profileImage,
         String name,
@@ -12,7 +14,7 @@ public record MyPageDto(
         String city,
         String postcode,
         Gender gender,
-        Long deposit
+        BigDecimal deposit
         ) {
 
 
