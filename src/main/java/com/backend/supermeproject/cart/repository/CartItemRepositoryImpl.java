@@ -1,13 +1,12 @@
 package com.backend.supermeproject.cart.repository;
 
-import com.backend.supermeproject.cart.entity.Cart;
+
 import com.backend.supermeproject.cart.entity.CartItem;
 import com.backend.supermeproject.cart.entity.QCart;
 import com.backend.supermeproject.cart.entity.QCartItem;
 import com.backend.supermeproject.image.ImageEntity.QItemImage;
 import com.backend.supermeproject.item.entity.Item;
 import com.backend.supermeproject.item.entity.QItem;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;

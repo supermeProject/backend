@@ -1,5 +1,6 @@
 package com.backend.supermeproject.order.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,19 +34,17 @@ public class Order {
     @Column(nullable = false)
     private String status;  // 예: "PENDING", "SHIPPED", "DELIVERED"
 
-    @Column(nullable = true)
-    private String shippingCountry;
-    @Column(nullable = true)
-    private String shippingAddress;
-    @Column(nullable = true)
-    private String shippingCity;
-    @Column(nullable = true)
-    private String shippingPostcode;
-    @Column(nullable = true)
-    private String shippingPhoneNumber;
 
     public void addItem(OrderItem item) {
         items.add(item);
         item.setOrder(this);
     }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.orderDate == null) {
+            this.orderDate = LocalDateTime.now();
+        }
+    }
+
 }

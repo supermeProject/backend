@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -34,9 +34,25 @@ public class Payment {
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private LocalDateTime paymentDate;
+    private LocalDate paymentDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PaymentStatus status;
+
+    @Column(nullable = true)
+    private String shippingCountry;
+    @Column(nullable = true)
+    private String shippingAddress;
+    @Column(nullable = true)
+    private String shippingCity;
+    @Column(nullable = true)
+    private String shippingPostcode;
+    @Column(nullable = true)
+    private String shippingPhoneNumber;
+
+    @PrePersist
+    public void prePersist() {
+        this.paymentDate = LocalDate.now();  // 현재 날짜를 저장
+    }
 }

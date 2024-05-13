@@ -1,6 +1,6 @@
 package com.backend.supermeproject.cart.repository;
 
-import com.backend.supermeproject.cart.entity.Cart;
+
 import com.backend.supermeproject.cart.entity.CartItem;
 import com.backend.supermeproject.item.entity.Item;
 
