@@ -6,23 +6,19 @@ import com.backend.supermeproject.cart.service.CartService;
 import com.backend.supermeproject.member.jwt.MemberInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RestController
+@RestController @RequiredArgsConstructor
 @Tag(name="장바구니 api", description = "장바구니 기능 카트 api")
 @RequestMapping("/api/carts")
 public class CartController {
        private final CartService cartService;
 
-    @Autowired
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
 
     // 장바구니 항목 추가
     @Operation(summary = "장바구니 항목 추가하는 API 엔드포인트")
