@@ -10,15 +10,11 @@ import com.backend.supermeproject.item.entity.Item;
 import com.backend.supermeproject.item.entity.Size;
 import com.backend.supermeproject.item.entity.Variant;
 import com.backend.supermeproject.item.repository.ItemRepository;
-import com.backend.supermeproject.member.entity.Member;
-import com.backend.supermeproject.member.jwt.MemberInfo;
 import com.backend.supermeproject.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-
 import java.util.List;
 import java.util.stream.Collectors;
 
