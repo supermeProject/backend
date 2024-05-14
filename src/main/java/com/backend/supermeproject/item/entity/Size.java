@@ -1,14 +1,11 @@
 package com.backend.supermeproject.item.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor
-@Getter
+@Getter @Setter
 public class Size {
 
     @Id
@@ -28,4 +25,6 @@ public class Size {
         this.stock = stock;
         this.variant = variant;
     }
+
+
 }

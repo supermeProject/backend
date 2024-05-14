@@ -7,6 +7,8 @@ import com.backend.supermeproject.global.role.MemberType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -53,8 +55,12 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberType type = MemberType.USER;
 
+    //포인트
+    @Column(name = "deposit")
+    private BigDecimal deposit;
+
     @Builder
-    public Member(String profileImage, String name, String email, String password, String country, String address, String city, String phoneNumber, Gender gender, String postcode) {
+    public Member(String profileImage, String name, String email, String password, String country, String address, String city, String phoneNumber, Gender gender, String postcode, BigDecimal deposit) {
         this.profileImage = profileImage;
         this.name = name;
         this.email = email;
@@ -65,9 +71,10 @@ public class Member extends BaseEntity {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.postcode = postcode;
+        this.deposit = deposit;
     }
 
-    public void profileImage(String profileImage) {
+        public void profileImage(String profileImage) {
         this.profileImage = profileImage;
     }
 }

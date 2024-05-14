@@ -1,9 +1,7 @@
 package com.backend.supermeproject.cart.repository;
 
 import com.backend.supermeproject.cart.entity.Cart;
-import com.backend.supermeproject.cart.entity.CartItem;
 import com.backend.supermeproject.cart.entity.QCart;
-import com.backend.supermeproject.cart.entity.QCartItem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
