@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Table(name = "cart")
@@ -25,6 +26,9 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items;
+
+    @Column(name = "total_price", nullable = false)
+    private BigDecimal totalPrice;
 
     @Builder.Default
     @Column(name = "is_paid", nullable = false)

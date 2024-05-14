@@ -1,20 +1,33 @@
 package com.backend.supermeproject.cart.dto;
 
-import lombok.*;
+import com.backend.supermeproject.cart.entity.CartItem;
+import com.backend.supermeproject.global.util.ImageUtils;
 
 import java.math.BigDecimal;
 
-@Getter
-@Builder
-@AllArgsConstructor @NoArgsConstructor
-public class CartItemDto {
-    private Long itemId;
-    private String productName;
-    private Long variantId;
-    private String color;
-    private Long sizeId;
-    private String size;
-    private int quantity;
-    private BigDecimal price;
-    private String imageURL;
+public record CartItemDto(
+        Long itemId,
+        String productName,
+        Long variantId,
+        String color,
+        Long sizeId,
+        String size,
+        int quantity,
+        BigDecimal price,
+        String imageURL
+) {
+    public static CartItemDto fromEntity(CartItem cartItem) {
+        return new CartItemDto(
+                cartItem.getItem().getItemId(),
+                cartItem.getItem().getProductName(),
+                cartItem.getVariant().getId(),
+                cartItem.getVariant().getColor(),
+                cartItem.getSize().getId(),
+                cartItem.getSize().getSize(),
+                cartItem.getQuantity(),
+                cartItem.getItem().getPrice(),
+                ImageUtils.getFirstImageUrl(cartItem.getItem().getImage())
+
+        );
+    }
 }

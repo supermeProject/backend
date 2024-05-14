@@ -1,6 +1,5 @@
 package com.backend.supermeproject.cart.repository;
 
-import com.backend.supermeproject.cart.entity.Cart;
 import com.backend.supermeproject.cart.entity.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
