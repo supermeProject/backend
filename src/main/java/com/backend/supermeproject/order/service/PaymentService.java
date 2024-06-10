@@ -13,8 +13,8 @@ import com.backend.supermeproject.order.entity.PaymentMethod;
 import com.backend.supermeproject.order.entity.PaymentStatus;
 import com.backend.supermeproject.order.repository.OrderRepository;
 import com.backend.supermeproject.order.repository.PaymentRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,23 +22,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
-@Service
+@Service @RequiredArgsConstructor
 public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
 
-
-    @Autowired
-    public PaymentService(PaymentRepository paymentRepository, MemberRepository memberRepository,
-                          OrderRepository orderRepository,
-                          CartRepository cartRepository) {
-        this.paymentRepository = paymentRepository;
-        this.memberRepository = memberRepository;
-        this.orderRepository = orderRepository;
-        this.cartRepository = cartRepository;
-    }
 
     // 결제 처리
     @Transactional

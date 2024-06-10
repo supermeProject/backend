@@ -5,23 +5,19 @@ import com.backend.supermeproject.order.dto.OrderDto;
 import com.backend.supermeproject.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
-@RestController
+@RestController @RequiredArgsConstructor
 @Tag(name="주문 api", description = "주문 생성, 주문 상세 조회, 주문 목록 조회 기능 api")
 @RequestMapping("/api/orders")
 public class OrderController {
     private final OrderService orderService;
-    @Autowired
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     // 주문 생성
     @Operation(summary = "주문 생성 API")

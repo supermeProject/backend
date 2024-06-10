@@ -16,10 +16,9 @@ import com.backend.supermeproject.item.repository.SizeRepository;
 import com.backend.supermeproject.item.repository.VariantRepository;
 import com.backend.supermeproject.member.entity.Member;
 import com.backend.supermeproject.member.repository.MemberRepository;
-import com.backend.supermeproject.global.util.ImageUtils;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Service
+@Service @RequiredArgsConstructor
 public class CartService {
 
     private final CartItemRepository cartItemRepository;
@@ -40,22 +39,6 @@ public class CartService {
     private final VariantRepository variantRepository;
     private final SizeRepository sizeRepository;
 
-
-    @Autowired
-    public CartService(CartItemRepository cartItemRepository,
-                       ItemRepository itemRepository,
-                       MemberRepository memberRepository,
-                       CartRepository cartRepository,
-                       VariantRepository variantRepository,
-                       SizeRepository sizeRepository
-                       ) {
-        this.cartItemRepository = cartItemRepository;
-        this.itemRepository = itemRepository;
-        this.memberRepository = memberRepository;
-        this.cartRepository = cartRepository;
-        this.variantRepository = variantRepository;
-        this.sizeRepository = sizeRepository;
-    }
 
     // 새 카트 아이템 추가
     public void addCartItem(Long memberId, CartItemDto cartItemDto) {
